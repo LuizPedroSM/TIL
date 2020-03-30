@@ -342,6 +342,20 @@ SELECT codigo, nome FROM banco WHERE data_criacao > '2019-10-15 15:00:00';
 
 # Pratica 
 
+## IDEMPOTÊNCIA
+> Propiedade que algumas ações/operações possuem possibilitando-as de serem executadas diversas vezes sem alterar o resultado após a aplicação inicial.
+>  - IF EXISTS
+>  - Comandos pertinentes ao DDL e DML
+
+## Melhores práticas em DDL
+> Importante as tabelas possuírem campos que realmente serão utulizados e que sirvam de atributo direto a um objetivo em comum.
+> - Criar/Acrescentar colunas que são "atributos básicos" do objeto;\
+> Exemplo: Tabela CLIENTE: coluna TELEFONE / coluna AGENCIA_BANCARIA
+> - Cuidado com regras (constraints)
+> - Cuidado com o excesso de FKs
+> - Cuidado com o tamanho indevido de colunas \
+> Exemplo: coluna CEP VARCHAR(255)
+
 ### pgAdmin4
 
 ````SQL
@@ -365,7 +379,7 @@ CREATE TABLE IF NOT EXISTS agencia (
 	FOREIGN KEY (banco_numero) REFERENCES banco (numero)
 );
 
-CREATE TABLE cliente (
+CREATE TABLE IF NOT EXISTS cliente (
 	numero BIGSERIAL PRIMARY KEY,
 	nome VARCHAR(120) NOT NULL,
 	email VARCHAR(250) NOT NULL,
@@ -373,7 +387,7 @@ CREATE TABLE cliente (
 	data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE conta_corrente (
+CREATE TABLE IF NOT EXISTS conta_corrente (
 	banco_numero INTEGER NOT NULL,
 	agencia_numero INTEGER NOT NULL,
 	cliente_numero BIGINT NOT NULL,
@@ -386,14 +400,14 @@ CREATE TABLE conta_corrente (
 	FOREIGN KEY (cliente_numero) REFERENCES cliente (numero)
 );
 
-CREATE TABLE tipo_transacao (
+CREATE TABLE IF NOT EXISTS tipo_transacao (
 	id SMALLSERIAL PRIMARY KEY,
 	nome VARCHAR(50) NOT NULL,
 	ativo BOOLEAN NOT NULL DEFAULT TRUE,
 	data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE cliente_transacoes (
+CREATE TABLE IF NOT EXISTS cliente_transacoes (
 	id BIGSERIAL PRIMARY KEY,
 	banco_numero INTEGER NOT NULL,
 	agencia_numero INTEGER NOT NULL,
