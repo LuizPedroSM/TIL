@@ -72,7 +72,6 @@ TRUNCATE [TABLE] [ONLY] name [*] [,...]
 
 ````SQL
 SELECT numero, nome, ativo FROM banco;
-SELECT numero, nome, ativo FROM banco;
 SELECT banco_numero, numero, nome FROM agencia;
 SELECT numero, nome, email FROM cliente;
 SELECT id, nome FROM tipo_transacao;
